@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:litho-model-index.swift">
+   </FileRef>
+   <FileRef
+      location = "group:litho-init-circleci.swift">
+   </FileRef>
+   <FileRef
+      location = "group:litho-init-fastlane.swift">
+   </FileRef>
+   <FileRef
+      location = "group:litho-init-git.swift">
+   </FileRef>
+   <FileRef
+      location = "group:litho-init-login.swift">
+   </FileRef>
+   <FileRef
+      location = "group:litho-init-pods.swift">
+   </FileRef>
+   <FileRef
+      location = "group:litho-proj.sh">
+   </FileRef>
+</Workspace>
