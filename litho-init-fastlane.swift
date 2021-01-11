@@ -71,16 +71,16 @@ clear_previous_screenshots(true)
 """
 try! snapfile.write(toFile: "./fastlane/Snapfile", atomically: true, encoding: .utf8)
 
-let matchfile = """
-git_url("git@github.com:ThryvInc/ios-code-signing.git")
-git_branch("\(projectName)")
-storage_mode("git")
-type("appstore")
-app_identifier([""])
-username("") # Your Apple Developer Portal username
-
-"""
-try! matchfile.write(toFile: "./fastlane/Matchfile", atomically: true, encoding: .utf8)
+//let matchfile = """
+//git_url("git@github.com:ThryvInc/ios-code-signing.git")
+//git_branch("\(projectName)")
+//storage_mode("git")
+//type("appstore")
+//app_identifier([""])
+//username("") # Your Apple Developer Portal username
+//
+//"""
+//try! matchfile.write(toFile: "./fastlane/Matchfile", atomically: true, encoding: .utf8)
 
 let gemfile = """
 source "https://rubygems.org"

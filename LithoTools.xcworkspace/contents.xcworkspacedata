@@ -2,6 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:README.md">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/ell/development/ios/tools/litho-openapi.sh">
+   </FileRef>
+   <FileRef
       location = "group:litho-model-index.swift">
    </FileRef>
    <FileRef
@@ -15,6 +21,9 @@
    </FileRef>
    <FileRef
       location = "group:litho-init-login.swift">
+   </FileRef>
+   <FileRef
+      location = "group:litho-init-ecomm.swift">
    </FileRef>
    <FileRef
       location = "group:litho-init-pods.swift">

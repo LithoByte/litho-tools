@@ -6,26 +6,32 @@ let args = CommandLine.arguments
 let targetName = args[1]
 let modelName = args[2]
 
-let capitalizeFirstLetter: (String) -> String = { $0.prefix(1).uppercased() + $0.lowercased().dropFirst() }
+let capitalizeFirstLetter: (String) -> String = { $0.prefix(1).uppercased() + $0.dropFirst() }
 let capModel = capitalizeFirstLetter(modelName)
+
+let pluralModel = "\(modelName)s"
+let pluralCapModel = "\(capModel)s"
 
 let vcString = """
 import LUX
 import LithoOperators
 import FlexDataSource
 import PlaygroundVCHelpers
+import Slippers
+import Combine
+import fuikit
 
-func \(modelName)sVC() -> \(capModel)sViewController {
+func \(modelName)sVC() -> \(pluralCapModel)ViewController {
     let vc = \(capModel)sViewController.makeFromXIB()
     vc.onViewDidLoad = optionalCast >?> configure(vc:)
     return vc
 }
 
-class \(capModel)sViewController: LUXFunctionalTableViewController {
+class \(pluralCapModel)ViewController: FUITableViewViewController {
     var viewModel: LUXTableViewModel?
 }
 
-func configure(vc: \(capModel)sViewController) {
+fileprivate func configure(vc: \(pluralCapModel)ViewController) {
     let refresher = <#Refreshable#>
     let modelsPublisher = <#AnyPublisher<[\(capModel)], Never>#>
     let vm = viewModel(for: vc.tableView, refresher, modelsPublisher)
@@ -33,15 +39,14 @@ func configure(vc: \(capModel)sViewController) {
     vm.refresh()
 }
 
-func viewModel(for tableView: UITableView, _ refresher: Refreshable, _ modelsPub: AnyPublisher<[Model], Never>) -> LUXTableViewModel {
-    let itemsPub = modelsPub.map(configure(model:in:) >||> LUXModelItem.init)
-    let vm = LUXSectionsTableViewModel(refresher, itemsPub)
+func viewModel(for tableView: UITableView, _ refresher: Refreshable, _ \(pluralModel)Pub: AnyPublisher<[\(capModel)], Never>) -> LUXTableViewModel {
+    let itemsPub: AnyPublisher<[FlexDataSourceItem], Never> = \(pluralModel)Pub.map(configure(\(modelName):in:) >||> LUXModelItem.init >||> map)
+    let vm = LUXItemsTableViewModel(pageManager, itemsPublisher: itemsPub)
     vm.tableView = tableView
     return vm
 }
 
-func configure(model: Model, in cell: UITableViewCell) {}
-
+func configure(\(modelName): \(capModel), in cell: UITableViewCell) {}
 """
 
 let xib = """

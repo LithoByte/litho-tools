@@ -11,7 +11,6 @@ import Prelude
 import LithoOperators
 import FunNet
 import Combine
-import Slippers
 
 open class AppOpenFlowController: LUXAppOpenFlowController {
     var cancelBag = Set<AnyCancellable>()
@@ -303,7 +302,7 @@ func landingVCDef() -> String {
 import LUX
 import PlaygroundVCHelpers
 
-func landingViewController() -> UIViewController {
+func landingVC() -> UIViewController {
     return LandingViewController.makeFromXIB()
 }
 
