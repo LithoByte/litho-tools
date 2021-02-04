@@ -1,0 +1,32 @@
+{
+  "id": "file:/user.json#",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "description": "A serialized User model.",
+  "properties": {
+    "api_key": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "first_name": {
+      "type": ["string", "null"]
+    },
+    "last_name": {
+      "type": ["string", "null"]
+    },
+    "id": {
+      "type": "number"
+    },
+    "email": {
+      "type": "string"
+    },
+    "updated_at": {
+      "type": "string"
+    }
+  },
+  "required": ["id", "email", "created_at", "updated_at"]
+}
+

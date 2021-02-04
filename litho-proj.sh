@@ -15,7 +15,7 @@ do
     if [[ $arg == "-h" ]] || [[ $arg == "--help" ]] || [[ $arg == "help" ]] || [[ $arg == "-?" ]]; then
         echo "Usage of litho-proj"
         echo "cd into the project root directory and run this script."
-        echo "litho-proj.sh -[gcpflo] -n ProjectName -F FrameworkName [-a openapi/file.yml]"
+        echo "litho-proj.sh -[gcpfl] -n ProjectName -F FrameworkName [-a openapi/file.yml]"
         echo "In the first argument:"
         echo "including g will set up git"
         echo "including c will set up CircleCI"

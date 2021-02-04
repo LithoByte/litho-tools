@@ -1,8 +1,137 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
+   <Group
+      location = "group:rails"
+      name = "rails">
+      <Group
+         location = "group:config"
+         name = "config">
+         <FileRef
+            location = "group:routes.rb">
+         </FileRef>
+      </Group>
+      <Group
+         location = "group:spec"
+         name = "spec">
+         <FileRef
+            location = "group:spec_helper.rb">
+         </FileRef>
+         <Group
+            location = "group:models"
+            name = "models">
+            <FileRef
+               location = "group:user_spec.rb">
+            </FileRef>
+         </Group>
+         <Group
+            location = "group:requests"
+            name = "requests">
+            <FileRef
+               location = "group:sessions_spec.rb">
+            </FileRef>
+            <FileRef
+               location = "group:users_spec.rb">
+            </FileRef>
+         </Group>
+         <Group
+            location = "group:support"
+            name = "support">
+            <FileRef
+               location = "group:factory_bot.rb">
+            </FileRef>
+            <FileRef
+               location = "group:request_macros.rb">
+            </FileRef>
+            <FileRef
+               location = "group:bullet_macros.rb">
+            </FileRef>
+            <Group
+               location = "group:api"
+               name = "api">
+               <Group
+                  location = "group:schemas"
+                  name = "schemas">
+                  <FileRef
+                     location = "group:user.json">
+                  </FileRef>
+               </Group>
+            </Group>
+         </Group>
+         <Group
+            location = "group:factories"
+            name = "factories">
+            <FileRef
+               location = "group:users.rb">
+            </FileRef>
+         </Group>
+         <FileRef
+            location = "group:rails_helper.rb">
+         </FileRef>
+      </Group>
+      <Group
+         location = "group:models"
+         name = "models">
+         <FileRef
+            location = "group:user.rb">
+         </FileRef>
+      </Group>
+      <Group
+         location = "group:controllers"
+         name = "controllers">
+         <Group
+            location = "group:api"
+            name = "api">
+            <Group
+               location = "group:v1"
+               name = "v1">
+               <FileRef
+                  location = "group:users_controller.rb">
+               </FileRef>
+               <FileRef
+                  location = "group:sessions_controller.rb">
+               </FileRef>
+               <FileRef
+                  location = "group:api_controller.rb">
+               </FileRef>
+            </Group>
+         </Group>
+      </Group>
+      <Group
+         location = "group:views"
+         name = "views">
+         <Group
+            location = "group:api"
+            name = "api">
+            <Group
+               location = "group:v1"
+               name = "v1">
+               <Group
+                  location = "group:sessions"
+                  name = "sessions">
+                  <FileRef
+                     location = "group:create.json.jbuilder">
+                  </FileRef>
+               </Group>
+               <Group
+                  location = "group:users"
+                  name = "users">
+                  <FileRef
+                     location = "group:create.json.jbuilder">
+                  </FileRef>
+                  <FileRef
+                     location = "group:_user.json.jbuilder">
+                  </FileRef>
+               </Group>
+            </Group>
+         </Group>
+      </Group>
+   </Group>
    <FileRef
       location = "group:README.md">
+   </FileRef>
+   <FileRef
+      location = "group:litho-rails-login.sh">
    </FileRef>
    <FileRef
       location = "group:/Users/ell/development/ios/tools/litho-openapi.sh">

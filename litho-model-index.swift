@@ -21,9 +21,16 @@ import Slippers
 import Combine
 import fuikit
 
+struct \(capModel) {
+    
+}
+struct \(pluralCapModel)Wrapper { var \(pluralModel): [\(capModel)]? }
+extension \(capModel): Codable {}
+extension \(pluralCapModel)Wrapper: Codable {}
+
 func \(modelName)sVC() -> \(pluralCapModel)ViewController {
     let vc = \(capModel)sViewController.makeFromXIB()
-    vc.onViewDidLoad = optionalCast >?> configure(vc:)
+    vc.onViewDidLoad = ~>configure(vc:)
     return vc
 }
 
@@ -32,16 +39,16 @@ class \(pluralCapModel)ViewController: FUITableViewViewController {
 }
 
 fileprivate func configure(vc: \(pluralCapModel)ViewController) {
-    let refresher = <#Refreshable#>
-    let modelsPublisher = <#AnyPublisher<[\(capModel)], Never>#>
+    let refresher: Refreshable = <#Refreshable#> // e.g. Refresher, PageManager, MetaRefresher
+    let modelsPublisher: AnyPublisher<[\(capModel)], Never> = <#AnyPublisher<[\(capModel)], Never>#> // e.g. unwrappedModelPublisher(call.publisher.$data.eraseToAnyPublisher(), ^\(pluralCapModel)Wrapper.\(pluralModel)))
     let vm = viewModel(for: vc.tableView, refresher, modelsPublisher)
     vc.viewModel = vm
     vm.refresh()
 }
 
-func viewModel(for tableView: UITableView, _ refresher: Refreshable, _ \(pluralModel)Pub: AnyPublisher<[\(capModel)], Never>) -> LUXTableViewModel {
-    let itemsPub: AnyPublisher<[FlexDataSourceItem], Never> = \(pluralModel)Pub.map(configure(\(modelName):in:) >||> LUXModelItem.init >||> map)
-    let vm = LUXItemsTableViewModel(pageManager, itemsPublisher: itemsPub)
+func viewModel(for tableView: UITableView?, _ refresher: Refreshable, _ \(pluralModel)Pub: AnyPublisher<[\(capModel)], Never>) -> LUXRefreshableTableViewModel {
+    let itemsPub: AnyPublisher<[FlexDataSourceItem], Never> = \(pluralModel)Pub.map(configure(\(modelName):in:) >||> LUXModelItem.init >||> map).eraseToAnyPublisher()
+    let vm = LUXItemsTableViewModel(refresher, itemsPublisher: itemsPub)
     vm.tableView = tableView
     return vm
 }

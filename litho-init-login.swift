@@ -5,6 +5,20 @@ import Foundation
 let projectName = CommandLine.arguments[1]
 let projectLibName = CommandLine.arguments[2]
 
+let authedFlow = """
+import LUX
+
+class AuthedFlowController: LUXFlowCoordinator {
+    var onLogOut: () -> Void = {}
+
+    open func initialVC() -> UIViewController? {
+        return UIViewController()
+    }
+}
+
+"""
+try! authedFlow.write(toFile: "./\(projectLibName)/FlowCoordinators/AuthedFlowCoordinator.swift", atomically: true, encoding: .utf8)
+
 let appOpen = """
 import LUX
 import Prelude
@@ -15,10 +29,11 @@ import Slippers
 
 open class AppOpenFlowController: LUXAppOpenFlowController {
     var cancelBag = Set<AnyCancellable>()
+    let authedFlowController = AuthedFlowController()
     
     public override init() {
         super.init()
-        LUXSessionManager.primarySession = LUXUserDefaultsSession(host: <#Host Name#>, authHeaderKey: <#Authorization Header#> )
+        LUXSessionManager.primarySession = LUXUserDefaultsSession(host: Current.serverConfig.host, authHeaderKey: <#Authorization Header#> )
         splashViewModel = LUXSplashViewModel(minimumVisibleTime: 1.0, otherTasks: nil)
         setupLogin()
     }
@@ -27,12 +42,9 @@ open class AppOpenFlowController: LUXAppOpenFlowController {
         let splashVC = splashViewController(splashViewModel)
         splashVC.modalTransitionStyle = .crossDissolve
 
-        splashViewModel?.outputs.advanceAuthedPublisher.sink { [unowned self] _ in
-            <#go to logged in state#>
-        }.store(in: &cancelBag)
-        splashViewModel?.outputs.advanceUnauthedPublisher.sink { [unowned self] _ in
-            splashVC.present(self.landingVC(), animated: true, completion: nil)
-        }.store(in: &cancelBag)
+        splashViewModel?.outputs.advanceAuthedPublisher.sink(receiveValue: authedFlowController.initialVC >?> splashVC.presentClosure()).store(in: &cancelBag)
+        splashViewModel?.outputs.advanceUnauthedPublisher.sink(receiveValue: ignoreArg(landingVC) >>> splashVC.presentClosure()).store(in: &cancelBag)
+        authedFlowController.onLogOut = union(LUXSessionManager.primarySession!.clearAuth, loginVC >>> splashVC.presentClosure() *> splashVC.dismissClosure())
 
         return splashVC
     }
@@ -43,6 +55,7 @@ open class AppOpenFlowController: LUXAppOpenFlowController {
             landingVC.onLoginPressed = { $0.present(self.loginVC(), animated: true, completion: nil) }
             landingVC.onSignUpPressed = { $0.present(self.registerVC(), animated: true, completion: nil) }
         }
+        landingVC.modalPresentationStyle = .fullScreen
         return landingVC
     }
 
@@ -55,32 +68,29 @@ open class AppOpenFlowController: LUXAppOpenFlowController {
         loginVC.modalTransitionStyle = .crossDissolve
         loginVC.modalPresentationStyle = .fullScreen
         
-        loginViewModel?.advanceAuthedPublisher.sink { [unowned self] _ in
-            <#go to logged in state#>
-        }.store(in: &cancelBag)
-        loginViewModel?.credentialLoginCall?.responder?.$serverError.sink { [weak loginVC] (error) in
-            if let e = error {
-                loginVC?.show(VerboseLoginErrorHandler().alert(for: e), sender: loginVC)
-            }
-        }.store(in: &cancelBag)
+        loginViewModel?.advanceAuthedPublisher.sink(receiveValue: authedFlowController.initialVC >?> loginVC.presentClosure()).store(in: &cancelBag)
+        loginViewModel?.credentialLoginCall?.responder?.$error.sink(receiveValue: ~>VerboseLoginErrorHandler().alert(for:) >?> loginVC.showClosure()).store(in: &cancelBag)
+        loginViewModel?.credentialLoginCall?.responder?.$serverError.sink(receiveValue: ~>VerboseLoginErrorHandler().alert(for:) >?> loginVC.showClosure()).store(in: &cancelBag)
 
         return loginVC
     }
 
     func setupLogin() {
         let call = <#Login Network Call#>
-        loginViewModel = LUXLoginViewModel(credsCall: call, loginModelToJson: <#(String, String) -> Codable#>) { data in
-            let loginData = try? JsonProvider.decode(<#AuthResponse type#>.self, from: data)
-            if let authToken = <#Authorization Token#> {
-                let hostName = <#Host Name#>
-                let session = LUXUserDefaultsSession(host: hostName, authHeaderKey: <#Authorization Header#> )
-                session.setAuthValue(authString: authToken)
-                LUXSessionManager.primarySession = session
-                return true
-            }
-            return false
-        }
+        loginViewModel = LUXLoginViewModel(credsCall: call, loginModelToJson: <#(String, String) -> Codable#>, saveAuth: storeApiKey)
     }
+}
+
+let storeApiKey: (Data) -> Bool = { data in
+    let loginData = JsonProvider.decode(<#AuthResponse type#>.self, from: data)
+    if let authToken = <#Authorization Token#> {
+        let hostName = Current.serverConfig.host
+        let session = LUXUserDefaultsSession(host: hostName, authHeaderKey: <#Authorization Header#> )
+        session.setAuthValue(authString: authToken)
+        LUXSessionManager.primarySession = session
+        return true
+    }
+    return false
 }
 
 """
