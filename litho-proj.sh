@@ -84,12 +84,13 @@ if [ "$should_init_git" == true ]; then
     echo "Initializing git..."
     touch .gitignore
     ~/development/ios/tools/litho-init-git.swift "$project_name" "$framework_name"
-    git init
+    git init -b main
 fi
 
 if [ "$should_include_login" == true ]; then
     echo "Generating login code..."
     mkdir $framework_name/AppOpen
+    mkdir $framework_name/FlowCoordinators
     ~/development/ios/tools/litho-init-login.swift "$project_name" "$framework_name"
 fi
 

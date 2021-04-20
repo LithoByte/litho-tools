@@ -1,10 +1,13 @@
 class Api::V1::UsersController < Api::V1::ApiController
-  skip_before_action :authenticate!, only: [:create]
+  include AuthToken
+  skip_before_action :authenticate_user!, only: [:create]
 
   def create
     @user = User.create(user_params)
 
     if @user.id
+      sign_in(:user, @user)
+      @auth_token = auth_token
       render :create, status: :created
     else
       render json: @user.errors, status: :unprocessable_entity
@@ -15,7 +18,7 @@ class Api::V1::UsersController < Api::V1::ApiController
 
   def user_params
     params.require(:user).permit(
-      :email, 
+      :email,
       :first_name,
       :last_name,
       :password

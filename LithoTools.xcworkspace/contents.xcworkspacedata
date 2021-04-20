@@ -2,8 +2,224 @@
 <Workspace
    version = "1.0">
    <Group
+      location = "group:rails-devise"
+      name = "rails-devise">
+      <FileRef
+         location = "group:.circleci/config.yml">
+      </FileRef>
+      <FileRef
+         location = "group:.env.test">
+      </FileRef>
+      <FileRef
+         location = "group:.env.docker">
+      </FileRef>
+      <FileRef
+         location = "group:.env.development">
+      </FileRef>
+      <FileRef
+         location = "group:.gitignore">
+      </FileRef>
+      <FileRef
+         location = "group:docker-compose.yml">
+      </FileRef>
+      <FileRef
+         location = "group:Dockerfile">
+      </FileRef>
+      <FileRef
+         location = "group:Procfile">
+      </FileRef>
+      <Group
+         location = "group:config"
+         name = "config">
+         <FileRef
+            location = "group:devise.rb">
+         </FileRef>
+         <FileRef
+            location = "group:routes.rb">
+         </FileRef>
+      </Group>
+      <Group
+         location = "group:spec"
+         name = "spec">
+         <FileRef
+            location = "group:spec_helper.rb">
+         </FileRef>
+         <Group
+            location = "group:models"
+            name = "models">
+            <FileRef
+               location = "group:user_spec.rb">
+            </FileRef>
+         </Group>
+         <Group
+            location = "group:requests"
+            name = "requests">
+            <FileRef
+               location = "group:sessions_spec.rb">
+            </FileRef>
+            <FileRef
+               location = "group:users_spec.rb">
+            </FileRef>
+         </Group>
+         <Group
+            location = "group:support"
+            name = "support">
+            <FileRef
+               location = "group:authorization_helper.rb">
+            </FileRef>
+            <FileRef
+               location = "group:factory_bot.rb">
+            </FileRef>
+            <FileRef
+               location = "group:request_macros.rb">
+            </FileRef>
+            <FileRef
+               location = "group:bullet_macros.rb">
+            </FileRef>
+            <Group
+               location = "group:api"
+               name = "api">
+               <Group
+                  location = "group:schemas"
+                  name = "schemas">
+                  <FileRef
+                     location = "group:user.json">
+                  </FileRef>
+               </Group>
+            </Group>
+         </Group>
+         <Group
+            location = "group:factories"
+            name = "factories">
+            <FileRef
+               location = "group:users.rb">
+            </FileRef>
+         </Group>
+         <FileRef
+            location = "group:rails_helper.rb">
+         </FileRef>
+      </Group>
+      <Group
+         location = "group:mailers"
+         name = "mailers">
+         <FileRef
+            location = "group:user_mailer.rb">
+         </FileRef>
+      </Group>
+      <Group
+         location = "group:models"
+         name = "models">
+         <FileRef
+            location = "group:jwt_blacklist.rb">
+         </FileRef>
+         <FileRef
+            location = "group:user.rb">
+         </FileRef>
+      </Group>
+      <Group
+         location = "group:controllers"
+         name = "controllers">
+         <Group
+            location = "group:concerns"
+            name = "concerns">
+            <FileRef
+               location = "group:auth_token.rb">
+            </FileRef>
+         </Group>
+         <Group
+            location = "group:deep_links"
+            name = "deep_links">
+            <FileRef
+               location = "group:apple_deep_link_controller.rb">
+            </FileRef>
+         </Group>
+         <FileRef
+            location = "group:invitations_controller.rb">
+         </FileRef>
+         <FileRef
+            location = "group:passwords_controller.rb">
+         </FileRef>
+         <FileRef
+            location = "group:registrations_controller.rb">
+         </FileRef>
+         <FileRef
+            location = "group:/Users/ell/development/ios/tools/rails-devise/controllers/sessions_controller.rb">
+         </FileRef>
+         <Group
+            location = "group:api"
+            name = "api">
+            <Group
+               location = "group:v1"
+               name = "v1">
+               <FileRef
+                  location = "group:users_controller.rb">
+               </FileRef>
+               <FileRef
+                  location = "group:api_controller.rb">
+               </FileRef>
+            </Group>
+         </Group>
+      </Group>
+      <Group
+         location = "group:views"
+         name = "views">
+         <Group
+            location = "group:/Users/ell/development/ios/tools/rails-devise/views/sessions"
+            name = "sessions">
+            <FileRef
+               location = "group:create.json.jbuilder">
+            </FileRef>
+         </Group>
+         <Group
+            location = "group:api"
+            name = "api">
+            <Group
+               location = "group:v1"
+               name = "v1">
+               <Group
+                  location = "group:users"
+                  name = "users">
+                  <FileRef
+                     location = "group:create.json.jbuilder">
+                  </FileRef>
+                  <FileRef
+                     location = "group:_user.json.jbuilder">
+                  </FileRef>
+               </Group>
+            </Group>
+         </Group>
+      </Group>
+      <FileRef
+         location = "group:template.rb">
+      </FileRef>
+   </Group>
+   <Group
       location = "group:rails"
       name = "rails">
+      <FileRef
+         location = "group:.env.test">
+      </FileRef>
+      <FileRef
+         location = "group:.env.docker">
+      </FileRef>
+      <FileRef
+         location = "group:.env.development">
+      </FileRef>
+      <FileRef
+         location = "group:.gitignore">
+      </FileRef>
+      <FileRef
+         location = "group:.circleci/config.yml">
+      </FileRef>
+      <FileRef
+         location = "group:docker-compose.yml">
+      </FileRef>
+      <FileRef
+         location = "group:Dockerfile">
+      </FileRef>
+      <FileRef
+         location = "group:Procfile">
+      </FileRef>
       <Group
          location = "group:config"
          name = "config">
@@ -129,6 +345,9 @@
    </Group>
    <FileRef
       location = "group:README.md">
+   </FileRef>
+   <FileRef
+      location = "group:litho-rails-devise-login.sh">
    </FileRef>
    <FileRef
       location = "group:litho-rails-login.sh">

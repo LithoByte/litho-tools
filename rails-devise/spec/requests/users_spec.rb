@@ -38,10 +38,10 @@ RSpec.describe "Users", type: :request do
       post url, params: params.to_json, headers: headers
 
       expect(response).to have_http_status(201)
-      expect(body["email"]).to eq(email)
+      expect(body["email"]).to eq(email.downcase)
       expect(body["first_name"]).to eq(first_name)
       expect(body["last_name"]).to eq(last_name)
-      expect(body["api_key"]).to eq(User.last.api_key)
+      expect(body["api_key"]).not_to be_nil
       expect(body).to match_json_schema("user")
     end
     

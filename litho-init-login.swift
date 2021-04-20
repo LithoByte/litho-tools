@@ -171,20 +171,32 @@ import PlaygroundVCHelpers
 
 func loginViewController(_ vm: LUXLoginViewModel?) -> UIViewController {
     let vc = LoginViewController.makeFromXIB()
+    vc.onForgotPwdPressed = ignoreArg(forgotPasswordVC >>> vc.presentClosure())
     vc.loginViewModel = vm
     return vc
 }
 
-class LoginViewController: LUXLoginViewController {}
+class LoginViewController: LUXLoginViewController {
+    public var onForgotPwdPressed: ((LoginViewController) -> Void)?
+    public var onLegalPressed: ((LoginViewController) -> Void)?
+    
+    override func forgotPasswordPressed() {
+        onForgotPwdPressed?(self)
+    }
+    
+    override func termsPressed() {
+        onLegalPressed?(self)
+    }
+}
 """
 }
 func loginXib() -> String {
     return """
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -225,7 +237,7 @@ func loginXib() -> String {
                         <action selector="passwordChanged" destination="-1" eventType="editingChanged" id="z3z-1l-wTc"/>
                     </connections>
                 </textField>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GAM-Sd-P0o">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GAM-Sd-P0o">
                     <rect key="frame" x="16" y="303" width="382" height="41"/>
                     <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
@@ -237,7 +249,7 @@ func loginXib() -> String {
                         <action selector="loginButtonPressed" destination="-1" eventType="touchUpInside" id="uyb-7h-CfW"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iOg-Mj-t8J">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iOg-Mj-t8J">
                     <rect key="frame" x="16" y="801" width="382" height="41"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="41" id="1P9-pB-L8t"/>
@@ -248,7 +260,7 @@ func loginXib() -> String {
                         <action selector="signUpPressed" destination="-1" eventType="touchUpInside" id="DWV-YA-Afv"/>
                     </connections>
                 </button>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6kJ-Hx-FMJ">
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="6kJ-Hx-FMJ">
                     <rect key="frame" x="16" y="70" width="382" height="141"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="141" id="oI0-n1-GmB"/>
@@ -257,7 +269,7 @@ func loginXib() -> String {
                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="AGS-Ko-oC9">
                     <rect key="frame" x="197" y="360" width="20" height="20"/>
                 </activityIndicatorView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QtP-OY-4W3">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QtP-OY-4W3">
                     <rect key="frame" x="296" y="354" width="102" height="28"/>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <state key="normal" title="Forgot Password"/>
@@ -265,16 +277,16 @@ func loginXib() -> String {
                         <action selector="forgotPasswordPressed" destination="-1" eventType="touchUpInside" id="KUZ-Pk-Agd"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bs4-J0-JDT">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bs4-J0-JDT">
                     <rect key="frame" x="279" y="390" width="119" height="28"/>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <state key="normal" title="Terms &amp; Conditions"/>
                     <connections>
-                        <action selector="forgotPasswordPressed" destination="-1" eventType="touchUpInside" id="eWx-ub-RAJ"/>
                         <action selector="termsPressed" destination="-1" eventType="touchUpInside" id="bsc-ak-KzB"/>
                     </connections>
                 </button>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="R7Q-he-D1X" firstAttribute="trailing" secondItem="mzo-Zd-pbM" secondAttribute="trailing" id="4eo-0T-PN8"/>
@@ -299,10 +311,12 @@ func loginXib() -> String {
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="mzo-Zd-pbM" secondAttribute="trailing" constant="16" id="vaD-wX-gDo"/>
                 <constraint firstItem="bs4-J0-JDT" firstAttribute="top" secondItem="QtP-OY-4W3" secondAttribute="bottom" constant="8" id="w08-VH-10w"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="-926.08695652173924" y="-11.383928571428571"/>
         </view>
     </objects>
+    <resources>
+        <image name="logo" width="288" height="95"/>
+    </resources>
 </document>
 
 """
@@ -323,10 +337,10 @@ class LandingViewController: LUXLandingViewController {}
 func landingXib() -> String {
     return """
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -348,15 +362,15 @@ func landingXib() -> String {
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vDR-gU-hQd">
                     <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                 </imageView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rmo-Hf-o0k">
-                    <rect key="frame" x="217" y="832" width="181" height="30"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rmo-Hf-o0k">
+                    <rect key="frame" x="217" y="816" width="181" height="30"/>
                     <state key="normal" title="Sign Up"/>
                     <connections>
                         <action selector="signUpPressed" destination="-1" eventType="touchUpInside" id="DkL-14-bX4"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dbf-Qd-x8P">
-                    <rect key="frame" x="20" y="832" width="181" height="30"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dbf-Qd-x8P">
+                    <rect key="frame" x="20" y="816" width="181" height="30"/>
                     <state key="normal" title="Login"/>
                     <connections>
                         <action selector="loginPressed" destination="-1" eventType="touchUpInside" id="KNL-2Q-PbX"/>
@@ -366,13 +380,14 @@ func landingXib() -> String {
                     <rect key="frame" x="87" y="193" width="240" height="128"/>
                 </imageView>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="Rmo-Hf-o0k" firstAttribute="centerY" secondItem="Dbf-Qd-x8P" secondAttribute="centerY" id="2k0-Rn-s7i"/>
                 <constraint firstItem="XHm-9r-6W6" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="149" id="DBw-OP-faS"/>
                 <constraint firstItem="Dbf-Qd-x8P" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="JEx-OU-zC9"/>
                 <constraint firstItem="vDR-gU-hQd" firstAttribute="bottom" secondItem="i5M-Pr-FkT" secondAttribute="bottom" id="Jt0-kr-q7z"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="Dbf-Qd-x8P" secondAttribute="bottom" id="LGe-u8-IjY"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="Dbf-Qd-x8P" secondAttribute="bottom" constant="16" id="LGe-u8-IjY"/>
                 <constraint firstItem="Rmo-Hf-o0k" firstAttribute="width" secondItem="Dbf-Qd-x8P" secondAttribute="width" id="P3r-iB-Kl0"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Rmo-Hf-o0k" secondAttribute="trailing" constant="16" id="QaD-AR-PWN"/>
                 <constraint firstItem="Rmo-Hf-o0k" firstAttribute="bottom" secondItem="Dbf-Qd-x8P" secondAttribute="bottom" id="TgC-Ie-ZTU"/>
@@ -382,7 +397,6 @@ func landingXib() -> String {
                 <constraint firstAttribute="trailing" secondItem="vDR-gU-hQd" secondAttribute="trailing" id="qN8-63-oLu"/>
                 <constraint firstItem="XHm-9r-6W6" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="uLj-Kb-AI5"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="131.8840579710145" y="153.34821428571428"/>
         </view>
     </objects>

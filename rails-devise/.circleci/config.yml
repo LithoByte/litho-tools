@@ -1,0 +1,62 @@
+version: 2.0
+jobs:
+    build:
+        docker:
+            - image: circleci/ruby:2.6.5-stretch-node-browsers
+              environment:
+                  RAILS_ENV: test
+                  PGHOST: 127.0.0.1
+                  PGUSER: postgres
+            - image: circleci/postgres:9.6.5
+        steps:
+            - checkout
+
+            # Restore bundle cache
+            - restore_cache:
+                  key: tapper_api-{{ checksum "Gemfile.lock" }}
+
+            # cmake is required by Rugged, a dependency of Pronto
+            - run:
+                  name: Install cmake
+                  command: sudo apt-get -y -qq update && sudo apt-get -y -qq install cmake
+
+            # Install Poppler for PDF image manipulation
+            - run:
+                  name: Install poppler-utils
+                  command: sudo apt-get install poppler-utils
+                  
+            # Update Bundler
+            - run:
+                  name: Update Bundler
+                  command: |
+                    gem update --system
+                    gem install bundler
+
+            # Bundle install dependencies
+            - run:
+                  name: Install dependencies
+                  command: bundle install --path vendor/bundle
+
+            # Store bundle cache
+            - save_cache:
+                  key: tapper_api-{{ checksum "Gemfile.lock" }}
+                  paths:
+                      - vendor/bundle
+
+            # Database setup
+            - run:
+                  name: Create database
+                  command: bundle exec rake db:create
+            - run:
+                  name: Load database schema
+                  command: bundle exec rake db:schema:load
+
+            # Tests
+            - run:
+                  name: RSpec
+                  command: bundle exec rspec
+
+            # Save Coverage Analysis
+            - store_artifacts:
+                  path: coverage
+                  destination: coverage
