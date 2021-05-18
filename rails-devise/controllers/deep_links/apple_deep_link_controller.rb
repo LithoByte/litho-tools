@@ -5,8 +5,8 @@ module DeepLinks
     def apple_app_site_association
       render json: { applinks: 
         { apps: [], 
-          details: [{ appID: "CHANGE_ME",
-                      paths: ["accept_invite/*"] }]
+          details: [{ appID: ENV["APPLE_APP_ID"],
+                      paths: ["accept_invite/*", "password_reset/*"] }]
         } 
       }
     end

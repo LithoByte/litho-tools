@@ -3,6 +3,8 @@ gem "devise"
 gem "devise-async"
 gem "devise-jwt"
 gem "devise_invitable"
+gem "sidekiq"
+gem "json_schema_builder"
 
 gem_group :development, :test do
   gem "axe-matchers"

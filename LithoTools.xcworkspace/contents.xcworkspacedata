@@ -2,6 +2,49 @@
 <Workspace
    version = "1.0">
    <Group
+      location = "group:rails-push"
+      name = "rails-push">
+      <Group
+         location = "group:spec"
+         name = "spec">
+         <FileRef
+            location = "group:devices_spec.rb">
+         </FileRef>
+         <FileRef
+            location = "group:device_spec.rb">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:device.rb">
+      </FileRef>
+      <Group
+         location = "group:controllers"
+         name = "controllers">
+         <FileRef
+            location = "group:devices_controller.rb">
+         </FileRef>
+      </Group>
+      <Group
+         location = "group:views"
+         name = "views">
+         <FileRef
+            location = "group:_device.json.jbuilder">
+         </FileRef>
+         <FileRef
+            location = "group:index.json.jbuilder">
+         </FileRef>
+         <FileRef
+            location = "group:show.json.jbuilder">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:one_signal.rb">
+      </FileRef>
+      <FileRef
+         location = "group:push_template.rb">
+      </FileRef>
+   </Group>
+   <Group
       location = "group:rails-devise"
       name = "rails-devise">
       <FileRef
@@ -32,6 +75,15 @@
          location = "group:config"
          name = "config">
          <FileRef
+            location = "group:setup_mail.rb">
+         </FileRef>
+         <FileRef
+            location = "group:sidekiq.rb">
+         </FileRef>
+         <FileRef
+            location = "group:sidekiq.yml">
+         </FileRef>
+         <FileRef
             location = "group:devise.rb">
          </FileRef>
          <FileRef
@@ -54,6 +106,9 @@
          <Group
             location = "group:requests"
             name = "requests">
+            <FileRef
+               location = "group:/Users/ell/development/ios/tools/rails-devise/spec/requests/invitations_spec.rb">
+            </FileRef>
             <FileRef
                location = "group:sessions_spec.rb">
             </FileRef>
@@ -163,6 +218,36 @@
       <Group
          location = "group:views"
          name = "views">
+         <Group
+            location = "group:invitations"
+            name = "invitations">
+            <FileRef
+               location = "group:accept.json.jbuilder">
+            </FileRef>
+         </Group>
+         <Group
+            location = "group:user_mailer"
+            name = "user_mailer">
+            <FileRef
+               location = "group:invitation_instructions.text.erb">
+            </FileRef>
+            <FileRef
+               location = "group:invitation_instructions.html.erb">
+            </FileRef>
+            <FileRef
+               location = "group:reset_password_instructions.html.erb">
+            </FileRef>
+            <FileRef
+               location = "group:reset_password_instructions.text.erb">
+            </FileRef>
+         </Group>
+         <Group
+            location = "group:users"
+            name = "users">
+            <FileRef
+               location = "group:_user.json.jbuilder">
+            </FileRef>
+         </Group>
          <Group
             location = "group:/Users/ell/development/ios/tools/rails-devise/views/sessions"
             name = "sessions">
@@ -345,6 +430,9 @@
    </Group>
    <FileRef
       location = "group:README.md">
+   </FileRef>
+   <FileRef
+      location = "group:litho-rails-push.sh">
    </FileRef>
    <FileRef
       location = "group:litho-rails-devise-login.sh">

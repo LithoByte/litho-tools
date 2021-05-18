@@ -7,15 +7,12 @@ class InvitationsController < Devise::InvitationsController
     user.accept_invitation!
 
     if user.errors.any?
-      render status: :bad_request
+      render json: user.errors, status: :bad_request
     else
       sign_in(:user, user)
-      serialized_user = UserBlueprint.render(
-        user,
-        view: :with_auth,
-        auth_token: auth_token,
-      )
-      render json: serialized_user
+      @user = user
+      @auth_token = auth_token
+      render :accept, status: :ok
     end
   end
 

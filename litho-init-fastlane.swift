@@ -61,7 +61,7 @@ let snapfile = """
 devices([
    "iPhone 8 Plus",
    "iPhone 11 Pro Max",
-   "iPad Pro (12.9-inch) (3rd generation)"
+   "iPad Pro (12.9-inch) (4th generation)"
 ])
 languages(["en-US"])
 scheme("\(projectLibName)UITests")
