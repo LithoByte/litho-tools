@@ -35,6 +35,8 @@ mkdir .circleci
 
 cp "$SCRIPT_DIR/rails-devise/.circleci/config.yml" ./.circleci/
 cp "$SCRIPT_DIR/rails-devise/.env.docker" ./
+cp "$SCRIPT_DIR/rails-devise/.env.test" ./
+cp "$SCRIPT_DIR/rails-devise/.env.development" ./
 cp "$SCRIPT_DIR/rails-devise/.gitignore" ./
 
 cp -r "$SCRIPT_DIR/rails-devise/config/routes.rb" ./config/routes.rb
@@ -55,7 +57,9 @@ cp -r "$SCRIPT_DIR/rails-devise/spec/" ./spec/
 rake db:create
 rake db:migrate
 
-echo "Remember to add these lines to your application.rb:"
-echo "config.active_job.queue_adapter = :sidekiq"
-echo "config.x.api_host = ENV.fetch(\"API_HOST\")"
-echo "config.x.mobile_app_link = ENV.fetch(\"MOBILE_APP_LINK\")"
+echo "-----------------------------------------------------------"
+echo "|Remember to add these lines to your application.rb:      |"
+echo "|config.active_job.queue_adapter = :sidekiq               |"
+echo "|config.x.api_host = ENV.fetch(\"API_HOST\")              |"
+echo "|config.x.mobile_app_link = ENV.fetch(\"MOBILE_APP_LINK\")|"
+echo "-----------------------------------------------------------"

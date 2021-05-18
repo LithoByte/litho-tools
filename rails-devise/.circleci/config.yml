@@ -13,7 +13,7 @@ jobs:
 
             # Restore bundle cache
             - restore_cache:
-                  key: tapper_api-{{ checksum "Gemfile.lock" }}
+                  key: api-{{ checksum "Gemfile.lock" }}
 
             # cmake is required by Rugged, a dependency of Pronto
             - run:

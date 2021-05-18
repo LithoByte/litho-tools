@@ -46,11 +46,11 @@ default: &default
 
 development:
   <<: *default
-  database: db/${project_name}_development
+  database: db/#{Rails.root.to_s}_development
 
 test:
   <<: *default
-  database: db/${project_name}_test
+  database: db/#{Rails.root.to_s}_test
 
 production:
   <<: *default
