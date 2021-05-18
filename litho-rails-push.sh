@@ -7,7 +7,7 @@ rails g migration AddUserRefToDevices user:references
 SCRIPT_DIR=`dirname "$BASH_SOURCE"`
 echo $SCRIPT_DIR
 
-cp -r "$SCRIPT_DIR/rails-push/config/one_signal.rb" ./config/initializers/one_signal.rb
+cp -r "$SCRIPT_DIR/rails-push/one_signal.rb" ./config/initializers/one_signal.rb
 
 cp -r "$SCRIPT_DIR/rails-push/controllers/" ./app/controllers/api/v1/
 cp -r "$SCRIPT_DIR/rails-push/device.rb" ./app/models/device.rb

@@ -49,6 +49,7 @@ cp -r "$SCRIPT_DIR/rails-devise/controllers/" ./app/controllers/
 cp -r "$SCRIPT_DIR/rails-devise/mailers/user_mailer.rb" ./app/mailers/user_mailer.rb
 
 cp -r "$SCRIPT_DIR/rails-devise/models/user.rb" ./app/models/user.rb
+cp -r "$SCRIPT_DIR/rails-devise/models/jwt_blacklist.rb" ./app/models/jwt_blacklist.rb
 
 cp -r "$SCRIPT_DIR/rails-devise/views/" ./app/views/
 
